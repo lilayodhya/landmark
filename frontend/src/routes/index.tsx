@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight, Compass, ShieldCheck, Users, Sparkles, ChevronDown, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,9 +7,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { SiteLayout } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
+import { getProperties } from "@/api/propertyApi";
+import type { Property } from "@/lib/properties";
 import { WelcomeDialog } from "@/components/site/WelcomeDialog";
-import { featuredProperties } from "@/lib/properties";
 import heroImg from "@/assets/hero-villa.jpg";
+import { LoginPage } from "./login";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,7 +23,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
-  component: HomePage,
+  component: LandingPage,
 });
 
 
@@ -47,7 +49,11 @@ const faqs = [
   { q: "How long does a typical transaction take?", a: "From shortlist to handover, a primary purchase averages 45–90 days. Resale and leasing timelines vary by complexity." },
 ];
 
-function HomePage() {
+function LandingPage() {
+  return <HomePage />;
+}
+
+export function HomePage() {
   return (
     <SiteLayout>
       <WelcomeDialog />
@@ -116,31 +122,79 @@ function Hero() {
 }
 
 function Featured() {
-  const autoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true }));
+  const autoplay = useRef(
+    Autoplay({
+      delay: 3500,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    })
+  );
+
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProperties() {
+      try {
+        const data = await getProperties();
+
+        setProperties(data.filter((property: Property) => property.featured));
+      } catch (error) {
+        console.error("Failed to fetch properties:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProperties();
+  }, []);
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <section className="py-20 md:py-28 bg-secondary/40 border-y border-border">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
           <div className="max-w-xl">
             <div className="eyebrow">Featured residences</div>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">A current selection</h2>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              A current selection
+            </h2>
             <p className="mt-4 text-muted-foreground">
               Hand-picked homes across India's most desirable neighbourhoods.
             </p>
           </div>
-          <Button asChild variant="ghost" className="rounded-none border-b border-foreground hover:bg-transparent hover:border-gold hover:text-gold px-0">
-            <Link to="/buy">View all properties <ArrowRight className="ml-2 h-4 w-4" /></Link>
+
+          <Button
+            asChild
+            variant="ghost"
+            className="rounded-none border-b border-foreground hover:bg-transparent hover:border-gold hover:text-gold px-0"
+          >
+            <Link to="/buy">
+              View all properties
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         </div>
 
-        <Carousel opts={{ align: "start", loop: true }} plugins={[autoplay.current]} className="w-full">
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          plugins={[autoplay.current]}
+          className="w-full"
+        >
           <CarouselContent className="-ml-4">
-            {featuredProperties().map((p) => (
-              <CarouselItem key={p.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <PropertyCard property={p} />
+            {properties.map((property) => (
+              <CarouselItem
+                key={property.id}
+                className="pl-4 md:basis-1/2 lg:basis-1/3"
+              >
+                <PropertyCard property={property} />
               </CarouselItem>
             ))}
           </CarouselContent>
+
           <div className="mt-8 flex justify-end gap-2">
             <CarouselPrevious className="static translate-y-0 rounded-none border-border hover:bg-primary hover:text-primary-foreground hover:border-primary" />
             <CarouselNext className="static translate-y-0 rounded-none border-border hover:bg-primary hover:text-primary-foreground hover:border-primary" />

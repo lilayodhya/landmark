@@ -3,19 +3,23 @@ import { useState } from "react";
 import { Bed, Bath, Maximize2, MapPin, ArrowLeft, Check, Calendar, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import type { Property } from "@/lib/properties";
-import { getProperty } from "@/lib/properties";
+import { getProperty } from "@/api/propertyApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { createScheduledVisit } from "@/api/scheduledVisitApi";
+import { createEnquiry } from "@/api/enquiryApi";
 
 export const Route = createFileRoute("/properties/$id")({
-  loader: ({ params }) => {
-    const property = getProperty(params.id);
+  loader: async ({ params }) => {
+    const property = await getProperty(params.id);
+
     if (!property) throw notFound();
+
     return { property };
-  },
+},
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
@@ -23,7 +27,7 @@ export const Route = createFileRoute("/properties/$id")({
           { name: "description", content: loaderData.property.description.slice(0, 160) },
           { property: "og:title", content: loaderData.property.title },
           { property: "og:description", content: loaderData.property.description.slice(0, 160) },
-          { property: "og:image", content: loaderData.property.image },
+          { property: "og:image", content: loaderData.property.images[0], },
           { property: "og:type", content: "article" },
         ]
       : [],
@@ -56,9 +60,9 @@ function PropertyPage() {
       <section className="container-x mt-6">
         <div className="grid gap-3 md:grid-cols-4 md:grid-rows-2 md:h-[520px]">
           <div className="md:col-span-3 md:row-span-2 overflow-hidden bg-muted">
-            <img src={property.gallery[active] ?? property.image} alt={property.title} className="h-full w-full object-cover aspect-[4/3] md:aspect-auto" />
+            <img src={property.images[active] ?? property.images[0]} alt={property.title} className="h-full w-full object-cover aspect-[4/3] md:aspect-auto" />
           </div>
-          {property.gallery.slice(0, 4).map((g, i) => (
+          {property.images.slice(0, 4).map((g, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
@@ -112,7 +116,7 @@ function PropertyPage() {
                 ["Bedrooms", String(property.bedrooms)],
                 ["Bathrooms", String(property.bathrooms)],
                 ["Built-up area", `${property.area.toLocaleString()} sqft`],
-                ["City", property.city],
+                ["City", property.location],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between border-b border-border py-2">
                   <dt className="text-muted-foreground">{k}</dt>
@@ -138,8 +142,7 @@ function PropertyPage() {
         <aside className="lg:sticky lg:top-28 self-start space-y-6">
           <div className="border border-border bg-card p-6">
             <div className="eyebrow">Asking price</div>
-            <div className="mt-1 font-display text-4xl text-primary">{property.priceLabel}</div>
-            <EnquiryForm property={property.title} />
+            <div className="mt-1 font-display text-4xl text-primary"> {`₹${property.price.toLocaleString("en-IN")}`} </div>            <EnquiryForm property={property.title} />
           </div>
           <div className="border border-border bg-primary text-primary-foreground p-6">
             <div className="eyebrow text-gold">Schedule a visit</div>
@@ -162,43 +165,185 @@ function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: s
 }
 
 function EnquiryForm({ property }: { property: string }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState(
+    `I'd like to know more about ${property}.`
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await createEnquiry({
+        name,
+        email,
+        phone,
+        enquiry: message,
+      });
+
+      toast.success("Enquiry sent successfully.");
+
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage(`I'd like to know more about ${property}.`);
+
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form
-      className="mt-6 space-y-3"
-      onSubmit={(e) => { e.preventDefault(); toast.success("Enquiry sent. An advisor will be in touch shortly."); }}
-    >
-      <Input required placeholder="Full name" className="rounded-none" />
-      <Input required type="email" placeholder="Email" className="rounded-none" />
-      <Input required placeholder="Phone" className="rounded-none" />
-      <Textarea placeholder={`I'd like to know more about ${property}…`} rows={3} className="rounded-none" />
-      <Button type="submit" className="w-full rounded-none bg-primary text-primary-foreground hover:bg-primary/90">
-        <Phone className="mr-2 h-4 w-4" /> Send Enquiry
+    <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+
+      <Input
+        required
+        placeholder="Full name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="rounded-none"
+      />
+
+      <Input
+        required
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="rounded-none"
+      />
+
+      <Input
+        required
+        placeholder="Phone"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        className="rounded-none"
+      />
+
+      <Textarea
+        rows={3}
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        className="rounded-none"
+      />
+
+      <Button
+        type="submit"
+        disabled={loading}
+        className="w-full rounded-none bg-primary text-primary-foreground hover:bg-primary/90"
+      >
+        <Phone className="mr-2 h-4 w-4" />
+        {loading ? "Sending..." : "Send Enquiry"}
       </Button>
+
     </form>
   );
 }
 
 function VisitForm({ property }: { property: string }) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await createScheduledVisit({
+        name,
+        phone,
+        property_name: property,
+        meeting_date: date,
+        meeting_time: time,
+      });
+
+      toast.success("Site visit scheduled successfully.");
+
+      setName("");
+      setPhone("");
+      setDate("");
+      setTime("");
+
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form
-      className="mt-6 space-y-3"
-      onSubmit={(e) => { e.preventDefault(); toast.success(`Site visit requested for ${property}.`); }}
-    >
-      <Input required placeholder="Full name" className="rounded-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" />
-      <Input required placeholder="Phone" className="rounded-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50" />
+    <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+
+      <Input
+        required
+        placeholder="Full name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="rounded-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+      />
+
+      <Input
+        required
+        placeholder="Phone"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        className="rounded-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+      />
+
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/70">Date</Label>
-          <Input required type="date" className="rounded-none mt-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground" />
+          <Label className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/70">
+            Date
+          </Label>
+
+          <Input
+            required
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="rounded-none mt-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
+          />
         </div>
+
         <div>
-          <Label className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/70">Time</Label>
-          <Input required type="time" className="rounded-none mt-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground" />
+          <Label className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/70">
+            Time
+          </Label>
+
+          <Input
+            required
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="rounded-none mt-1 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
+          />
         </div>
       </div>
-      <Button type="submit" className="w-full rounded-none bg-gold text-primary hover:bg-gold/90">
-        <Calendar className="mr-2 h-4 w-4" /> Schedule Visit
+
+      <Button
+        type="submit"
+        disabled={loading}
+        className="w-full rounded-none bg-gold text-primary hover:bg-gold/90"
+      >
+        <Calendar className="mr-2 h-4 w-4" />
+        {loading ? "Scheduling..." : "Schedule Visit"}
       </Button>
+
     </form>
   );
 }

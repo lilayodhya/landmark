@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
+import { createSellRequest } from "@/api/sellApi";
 
 export const Route = createFileRoute("/sell")({
   head: () => ({
@@ -53,7 +54,41 @@ function SellPage() {
           </div>
 
           <form
-            onSubmit={(e) => { e.preventDefault(); toast.success("Thank you. An advisor will be in touch within one business day."); (e.target as HTMLFormElement).reset(); }}
+            onSubmit={async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const data = {
+    name: formData.get("name"),
+    phone: formData.get("phone"),
+    email: formData.get("email"),
+    property_type: formData.get("type"),
+    area_location: formData.get("location"),
+    expected_selling_price: formData.get("price"),
+    preferred_date: formData.get("date"),
+    preferred_time: formData.get("time"),
+    message: formData.get("notes"),
+};
+
+    try {
+        await createSellRequest(data);
+
+        toast.success(
+            "Thank you! One of our advisors will contact you shortly."
+        );
+
+        form.reset();
+
+    } catch (err) {
+        console.error(err);
+
+        toast.error(
+            "Something went wrong. Please try again."
+        );
+    }
+}}
             className="lg:col-span-3 border border-border bg-card p-6 md:p-10 space-y-5"
           >
             <div className="grid sm:grid-cols-2 gap-5">

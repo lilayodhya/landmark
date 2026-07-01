@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { createPopupLead } from "@/api/popupApi";
 
 const STORAGE_KEY = "landmark_welcome_seen_session";
 
@@ -49,21 +50,48 @@ export function WelcomeDialog() {
     setStep("contact");
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = contactSchema.safeParse(form);
-    if (!result.success) {
-      toast.error(result.error.issues[0].message);
-      return;
-    }
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      toast.success("Thank you — an advisor will be in touch shortly.");
-      close();
-    }, 500);
-  };
 
+    const result = contactSchema.safeParse(form);
+
+    if (!result.success) {
+        toast.error(result.error.issues[0].message);
+        return;
+    }
+
+    setSubmitting(true);
+
+    try {
+        await createPopupLead({
+            name: form.name,
+            phone: form.phone,
+            email: form.email,
+        });
+
+        toast.success(
+            "Thank you! One of our advisors will contact you shortly."
+        );
+
+        setForm({
+            name: "",
+            phone: "",
+            email: "",
+        });
+
+        close();
+
+    } catch (err) {
+        console.error(err);
+
+        toast.error(
+            "Something went wrong. Please try again."
+        );
+
+    } finally {
+        setSubmitting(false);
+    }
+};
   return (
     <Dialog open={open} onOpenChange={(o) => (o ? setOpen(true) : close())}>
       <DialogContent className="max-w-2xl rounded-none border-border p-0 overflow-hidden">

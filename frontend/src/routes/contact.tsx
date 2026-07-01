@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { createContact } from "@/api/contactApi";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -65,7 +66,35 @@ function ContactPage() {
           </div>
 
           <form
-            onSubmit={(e) => { e.preventDefault(); toast.success("Thanks — we'll be in touch shortly."); (e.target as HTMLFormElement).reset(); }}
+            onSubmit={async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const data = {
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        subject: formData.get("subject"),
+        message: formData.get("message"),
+    };
+
+    try {
+        await createContact(data);
+
+        toast.success("Thanks — we'll be in touch shortly.");
+
+        form.reset();
+
+    } catch (err: any) {
+    console.error(err);
+
+    console.log(err.response?.data);
+
+    toast.error(err.response?.data?.error || "Something went wrong.");
+}
+}}
             className="lg:col-span-3 border border-border bg-card p-6 md:p-10 space-y-5"
           >
             <div className="grid sm:grid-cols-2 gap-5">

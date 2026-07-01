@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { SiteLayout, PageHeader } from "@/components/site/Layout";
 import { PropertyCard } from "@/components/site/PropertyCard";
-import { saleProperties } from "@/lib/properties";
+import { getProperties } from "@/api/propertyApi";
+import type { Property } from "@/lib/properties";
+import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -22,38 +24,83 @@ export const Route = createFileRoute("/buy")({
 });
 
 function BuyPage() {
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProperties() {
+      try {
+        const data = await getProperties();
+
+        setProperties(
+          data.filter((property: Property) => property.listing === "sale")
+        );
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProperties();
+  }, []);
+
+  if (loading) {
+    return (
+      <SiteLayout>
+        <PageHeader
+          eyebrow="For Sale"
+          title="Homes ready to be loved."
+          description="Loading..."
+        />
+      </SiteLayout>
+    );
+  }
+
   return (
     <SiteLayout>
       <PageHeader
         eyebrow="For Sale"
         title="Homes ready to be loved."
-        description="A live selection of residences across Mumbai, Bengaluru, Hyderabad and Gurugram — quietly listed, personally vetted."
+        description="A live selection of residences across Mumbai's premier neighbourhoods."
       />
-      <Listings listings={saleProperties()} />
+
+      <Listings listings={properties} />
     </SiteLayout>
   );
 }
 
-export function Listings({ listings }: { listings: ReturnType<typeof saleProperties> }) {
+export function Listings({
+  listings,
+}: {
+  listings: Property[];
+}) {
   const [city, setCity] = useState("all");
   const [type, setType] = useState("all");
   const [beds, setBeds] = useState("all");
   const [budget, setBudget] = useState("all");
   const [q, setQ] = useState("");
 
-  const cities = Array.from(new Set(listings.map((p) => p.city)));
+  const cities = Array.from(new Set(listings.map((p) => p.location)));
   const types = Array.from(new Set(listings.map((p) => p.type)));
 
   const filtered = useMemo(() => {
     return listings.filter((p) => {
-      if (city !== "all" && p.city !== city) return false;
+      if (city !== "all" && p.location !== city) return false;
       if (type !== "all" && p.type !== type) return false;
       if (beds !== "all" && p.bedrooms < Number(beds)) return false;
       if (budget !== "all") {
         const max = Number(budget);
         if (p.price > max) return false;
       }
-      if (q && !`${p.title} ${p.location}`.toLowerCase().includes(q.toLowerCase())) return false;
+      if (
+        q &&
+        !`${p.title} ${p.location}`
+          .toLowerCase()
+          .includes(q.toLowerCase())
+      )
+        return false;
+
       return true;
     });
   }, [listings, city, type, beds, budget, q]);
@@ -69,7 +116,7 @@ export function Listings({ listings }: { listings: ReturnType<typeof salePropert
             <Select value={city} onValueChange={setCity}>
               <SelectTrigger className="rounded-none"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All cities</SelectItem>
+                <SelectItem value="all">All Locations</SelectItem>
                 {cities.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
               </SelectContent>
             </Select>

@@ -13,6 +13,7 @@ import { Route as TeamRouteImport } from './routes/team'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as RentalsRouteImport } from './routes/rentals'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as HomeRouteImport } from './routes/home'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -46,6 +47,11 @@ const RentalsRoute = RentalsRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
+  '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/buy'
     | '/contact'
+    | '/home'
     | '/login'
     | '/rentals'
     | '/sell'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/buy'
     | '/contact'
+    | '/home'
     | '/login'
     | '/rentals'
     | '/sell'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/buy'
     | '/contact'
+    | '/home'
     | '/login'
     | '/rentals'
     | '/sell'
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   BuyRoute: typeof BuyRoute
   ContactRoute: typeof ContactRoute
+  HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
   RentalsRoute: typeof RentalsRoute
   SellRoute: typeof SellRoute
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -413,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   BuyRoute: BuyRoute,
   ContactRoute: ContactRoute,
+  HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
   RentalsRoute: RentalsRoute,
   SellRoute: SellRoute,
