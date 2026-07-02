@@ -13,7 +13,6 @@ const links = [
   { to: "/about", label: "About" },
   { to: "/team", label: "Team" },
   { to: "/contact", label: "Contact" },
-  { to: "/login", label: "Sign In" },
 ] as const;
 
 
@@ -54,7 +53,7 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8">
-          {links.filter((l) => l.to !== "/login").map((l) => (
+          {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
@@ -67,9 +66,6 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
-          <Button asChild size="sm" variant="outline" className="rounded-none px-5 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <Link to="/login">Log in</Link>
-          </Button>
           <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-5">
             <Link to="/contact">Book Consultation</Link>
           </Button>
@@ -116,16 +112,8 @@ export function Navbar() {
           </button>
         </div>
 
-        <div className="border-b border-border/70 px-6 py-4">
-          <Button asChild variant="outline" className="w-full rounded-none h-12 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <Link to="/login" onClick={() => setOpen(false)}>
-              Log in / Sign up
-            </Link>
-          </Button>
-        </div>
-
         <nav className="flex flex-1 flex-col overflow-y-auto px-6 py-5">
-          {links.filter((l) => l.to !== "/login").map((l, i) => (
+          {links.map((l, i) => (
             <Link
               key={l.to}
               to={l.to}

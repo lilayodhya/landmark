@@ -12,22 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as SellRouteImport } from './routes/sell'
 import { Route as RentalsRouteImport } from './routes/rentals'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BuyRouteImport } from './routes/buy'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as AdminVisitsRouteImport } from './routes/admin.visits'
-import { Route as AdminRentalsRouteImport } from './routes/admin.rentals'
-import { Route as AdminPropertiesRouteImport } from './routes/admin.properties'
-import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
-import { Route as AdminBlogsRouteImport } from './routes/admin.blogs'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -42,11 +34,6 @@ const SellRoute = SellRouteImport.update({
 const RentalsRoute = RentalsRouteImport.update({
   id: '/rentals',
   path: '/rentals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -64,11 +51,6 @@ const BuyRoute = BuyRouteImport.update({
   path: '/buy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -84,11 +66,6 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
 const PropertiesIdRoute = PropertiesIdRouteImport.update({
   id: '/properties/$id',
   path: '/properties/$id',
@@ -99,51 +76,18 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminVisitsRoute = AdminVisitsRouteImport.update({
-  id: '/visits',
-  path: '/visits',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminRentalsRoute = AdminRentalsRouteImport.update({
-  id: '/rentals',
-  path: '/rentals',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPropertiesRoute = AdminPropertiesRouteImport.update({
-  id: '/properties',
-  path: '/properties',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLeadsRoute = AdminLeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminBlogsRoute = AdminBlogsRouteImport.update({
-  id: '/blogs',
-  path: '/blogs',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/home': typeof HomeRoute
-  '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
   '/team': typeof TeamRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/leads': typeof AdminLeadsRoute
-  '/admin/properties': typeof AdminPropertiesRoute
-  '/admin/rentals': typeof AdminRentalsRoute
-  '/admin/visits': typeof AdminVisitsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/properties/$id': typeof PropertiesIdRoute
-  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
@@ -152,40 +96,25 @@ export interface FileRoutesByTo {
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/home': typeof HomeRoute
-  '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
   '/team': typeof TeamRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/leads': typeof AdminLeadsRoute
-  '/admin/properties': typeof AdminPropertiesRoute
-  '/admin/rentals': typeof AdminRentalsRoute
-  '/admin/visits': typeof AdminVisitsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/properties/$id': typeof PropertiesIdRoute
-  '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/home': typeof HomeRoute
-  '/login': typeof LoginRoute
   '/rentals': typeof RentalsRoute
   '/sell': typeof SellRoute
   '/team': typeof TeamRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/leads': typeof AdminLeadsRoute
-  '/admin/properties': typeof AdminPropertiesRoute
-  '/admin/rentals': typeof AdminRentalsRoute
-  '/admin/visits': typeof AdminVisitsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/properties/$id': typeof PropertiesIdRoute
-  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
@@ -193,22 +122,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/admin'
     | '/buy'
     | '/contact'
     | '/home'
-    | '/login'
     | '/rentals'
     | '/sell'
     | '/team'
-    | '/admin/blogs'
-    | '/admin/leads'
-    | '/admin/properties'
-    | '/admin/rentals'
-    | '/admin/visits'
     | '/blog/$slug'
     | '/properties/$id'
-    | '/admin/'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -217,50 +138,33 @@ export interface FileRouteTypes {
     | '/buy'
     | '/contact'
     | '/home'
-    | '/login'
     | '/rentals'
     | '/sell'
     | '/team'
-    | '/admin/blogs'
-    | '/admin/leads'
-    | '/admin/properties'
-    | '/admin/rentals'
-    | '/admin/visits'
     | '/blog/$slug'
     | '/properties/$id'
-    | '/admin'
     | '/blog'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/admin'
     | '/buy'
     | '/contact'
     | '/home'
-    | '/login'
     | '/rentals'
     | '/sell'
     | '/team'
-    | '/admin/blogs'
-    | '/admin/leads'
-    | '/admin/properties'
-    | '/admin/rentals'
-    | '/admin/visits'
     | '/blog/$slug'
     | '/properties/$id'
-    | '/admin/'
     | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRouteWithChildren
   BuyRoute: typeof BuyRoute
   ContactRoute: typeof ContactRoute
   HomeRoute: typeof HomeRoute
-  LoginRoute: typeof LoginRoute
   RentalsRoute: typeof RentalsRoute
   SellRoute: typeof SellRoute
   TeamRoute: typeof TeamRoute
@@ -292,13 +196,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RentalsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/home': {
       id: '/home'
       path: '/home'
@@ -318,13 +215,6 @@ declare module '@tanstack/react-router' {
       path: '/buy'
       fullPath: '/buy'
       preLoaderRoute: typeof BuyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -348,13 +238,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/properties/$id': {
       id: '/properties/$id'
       path: '/properties/$id'
@@ -369,72 +252,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/visits': {
-      id: '/admin/visits'
-      path: '/visits'
-      fullPath: '/admin/visits'
-      preLoaderRoute: typeof AdminVisitsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/rentals': {
-      id: '/admin/rentals'
-      path: '/rentals'
-      fullPath: '/admin/rentals'
-      preLoaderRoute: typeof AdminRentalsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/properties': {
-      id: '/admin/properties'
-      path: '/properties'
-      fullPath: '/admin/properties'
-      preLoaderRoute: typeof AdminPropertiesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/leads': {
-      id: '/admin/leads'
-      path: '/leads'
-      fullPath: '/admin/leads'
-      preLoaderRoute: typeof AdminLeadsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/blogs': {
-      id: '/admin/blogs'
-      path: '/blogs'
-      fullPath: '/admin/blogs'
-      preLoaderRoute: typeof AdminBlogsRouteImport
-      parentRoute: typeof AdminRoute
-    }
   }
 }
-
-interface AdminRouteChildren {
-  AdminBlogsRoute: typeof AdminBlogsRoute
-  AdminLeadsRoute: typeof AdminLeadsRoute
-  AdminPropertiesRoute: typeof AdminPropertiesRoute
-  AdminRentalsRoute: typeof AdminRentalsRoute
-  AdminVisitsRoute: typeof AdminVisitsRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminBlogsRoute: AdminBlogsRoute,
-  AdminLeadsRoute: AdminLeadsRoute,
-  AdminPropertiesRoute: AdminPropertiesRoute,
-  AdminRentalsRoute: AdminRentalsRoute,
-  AdminVisitsRoute: AdminVisitsRoute,
-  AdminIndexRoute: AdminIndexRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRouteWithChildren,
   BuyRoute: BuyRoute,
   ContactRoute: ContactRoute,
   HomeRoute: HomeRoute,
-  LoginRoute: LoginRoute,
   RentalsRoute: RentalsRoute,
   SellRoute: SellRoute,
   TeamRoute: TeamRoute,

@@ -11,7 +11,6 @@ import { getProperties } from "@/api/propertyApi";
 import type { Property } from "@/lib/properties";
 import { WelcomeDialog } from "@/components/site/WelcomeDialog";
 import heroImg from "@/assets/hero-villa.jpg";
-import { LoginPage } from "./login";
 
 export const Route = createFileRoute("/")({
   head: () => ({
