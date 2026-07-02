@@ -1,17 +1,12 @@
 import express from "express";
 
 import {
-    getContacts,
-    createContact,
-    deleteContact
+  createContact,
 } from "../controllers/contactController.js";
 
 const router = express.Router();
 
-router.get("/", getContacts);
-
+// Public contact-form submission only
 router.post("/", createContact);
-
-router.delete("/:id", deleteContact);
 
 export default router;

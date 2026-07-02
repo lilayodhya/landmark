@@ -1,23 +1,14 @@
 import express from "express";
 
 import {
-    getBlogs,
-    getBlogById,
-    createBlog,
-    updateBlog,
-    deleteBlog
+  getBlogs,
+  getBlogBySlug,
 } from "../controllers/blogController.js";
 
 const router = express.Router();
 
+// Public read-only blog routes
 router.get("/", getBlogs);
-
-router.get("/:id", getBlogById);
-
-router.post("/", createBlog);
-
-router.put("/:id", updateBlog);
-
-router.delete("/:id", deleteBlog);
+router.get("/:slug", getBlogBySlug);
 
 export default router;

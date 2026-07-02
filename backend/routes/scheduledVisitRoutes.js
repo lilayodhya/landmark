@@ -1,17 +1,12 @@
 import express from "express";
 
 import {
-    getScheduledVisits,
-    createScheduledVisit,
-    deleteScheduledVisit
+  createScheduledVisit,
 } from "../controllers/scheduledVisitController.js";
 
 const router = express.Router();
 
-router.get("/", getScheduledVisits);
-
+// Public visit-booking form submission only
 router.post("/", createScheduledVisit);
-
-router.delete("/:id", deleteScheduledVisit);
 
 export default router;

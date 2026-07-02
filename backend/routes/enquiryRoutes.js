@@ -1,17 +1,12 @@
 import express from "express";
 
 import {
-    getEnquiries,
-    createEnquiry,
-    deleteEnquiry
+  createEnquiry,
 } from "../controllers/enquiryController.js";
 
 const router = express.Router();
 
-router.get("/", getEnquiries);
-
+// Public form submission only
 router.post("/", createEnquiry);
-
-router.delete("/:id", deleteEnquiry);
 
 export default router;

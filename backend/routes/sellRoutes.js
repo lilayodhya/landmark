@@ -1,17 +1,12 @@
 import express from "express";
 
 import {
-    getSellRequests,
-    createSellRequest,
-    deleteSellRequest
+  createSellRequest,
 } from "../controllers/sellController.js";
 
 const router = express.Router();
 
-router.get("/", getSellRequests);
-
+// Public sell-request form submission only
 router.post("/", createSellRequest);
-
-router.delete("/:id", deleteSellRequest);
 
 export default router;

@@ -1,14 +1,11 @@
 import express from "express";
 import {
-    getPopups,
-    createPopup,
-    deletePopup
+  createPopup,
 } from "../controllers/popupController.js";
 
 const router = express.Router();
 
-router.get("/", getPopups);
+// Public welcome-popup form submission only
 router.post("/", createPopup);
-router.delete("/:id", deletePopup);
 
 export default router;
