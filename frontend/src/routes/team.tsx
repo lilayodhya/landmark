@@ -16,12 +16,27 @@ export const Route = createFileRoute("/team")({
 });
 
 const team = [
-  { name: "Homesh Patel", role: "Founder & Principal Advisor", email: "homesh@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" },
-  { name: "Anaya Krishnan", role: "Director, Bengaluru", email: "anaya@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" },
-  { name: "Vikram Rao", role: "Head of Investment Advisory", email: "vikram@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" },
-  { name: "Saira Hussain", role: "Senior Advisor, Mumbai", email: "saira@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80" },
-  { name: "Rahul Menon", role: "Director, Hyderabad", email: "rahul@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" },
-  { name: "Priya Bansal", role: "Head of Lettings", email: "priya@homeshlandmark.com", phone: "+91 9820357137", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" },
+  {
+    name: "Homesh Patel",
+    role: "Founder & Principal Advisor",
+    email: "homesh@homeshlandmark.com",
+    phone: "+91 9820357137",
+    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    name: "Anaya Krishnan",
+    role: "Director, Bengaluru",
+    email: "anaya@homeshlandmark.com",
+    phone: "+91 9820357137",
+    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    name: "Vikram Rao",
+    role: "Head of Investment Advisory",
+    email: "vikram@homeshlandmark.com",
+    phone: "+91 9820357137",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+  },
 ];
 
 function TeamPage() {
