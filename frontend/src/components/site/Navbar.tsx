@@ -156,7 +156,7 @@ export function Navbar() {
             </div>
 
             <div className="mt-8 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-              Landmark Estate Agents · Est. 2004
+              Landmark Estate Agents · Est. 1978
             </div>
           </div>
         </nav>
