@@ -36,12 +36,12 @@ const reasons = [
 const testimonials = [
   { quote: "Landmark Estate Agents turned a daunting purchase into a calm, considered process. Their attention to detail is unmatched.", name: "Aarav & Meera Shah", role: "Bought in Worli" },
   { quote: "They understood the brief in one conversation and shortlisted three homes — we chose the second. Exceptional taste.", name: "Dr. Rhea Kapoor", role: "Bought in Bandra" },
-  { quote: "The team's market read on Bengaluru saved us months. Honest, sharp and quietly persistent.", name: "Karthik Iyer", role: "Investor" },
+  { quote: "The team's market read saved us months. Honest, sharp and quietly persistent.", name: "Karthik Iyer", role: "Investor" },
   { quote: "From staging to marketing to negotiation — a genuinely boutique experience. We've referred them three times.", name: "Sana Mehra", role: "Sold in Juhu" },
 ];
 
 const faqs = [
-  { q: "Which cities do you operate in?", a: "We specialise in Mumbai, Bengaluru, Hyderabad and Gurugram, with a curated reach into Pune, Goa and selected hill stations." },
+  { q: "Which areas do you operate in?", a: "We have a curated reach into the most prestigious and luxurious neighborhoods in Mumbai." },
   { q: "Do you charge consultation fees?", a: "Initial consultations are complimentary. Our advisory engagement and brokerage are transparently outlined before any commitment." },
   { q: "Can you help with NRI purchases?", a: "Yes — we handle remote viewings, due diligence, FEMA compliance and end-to-end paperwork for NRI clients across 14 countries." },
   { q: "Are listings RERA-verified?", a: "Every project we represent is title-checked and, where applicable, RERA-registered. We share documentation on request." },
@@ -85,7 +85,7 @@ function Hero() {
           Find Your <span className="italic text-gold">Perfect</span> Property
         </h1>
         <p className="mt-7 max-w-xl text-base md:text-lg text-primary-foreground/80 leading-relaxed animate-fade-in">
-          A boutique advisory for buying, selling, renting and investing in India's most coveted residences —
+          A boutique advisory for buying, selling, renting and investing in Mumbai's most coveted residences —
           guided by people who know every street.
         </p>
         <div className="mt-10 flex flex-wrap gap-3 animate-fade-in">

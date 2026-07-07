@@ -125,17 +125,6 @@ function PropertyPage() {
               ))}
             </dl>
           </div>
-
-          <div className="mt-10">
-            <h2 className="font-display text-2xl">Location</h2>
-            <div className="mt-5 aspect-[16/8] bg-secondary border border-border grid place-items-center text-muted-foreground">
-              <div className="text-center">
-                <MapPin className="h-8 w-8 text-gold mx-auto" />
-                <p className="mt-3 text-sm">{property.location}</p>
-                <p className="text-xs mt-1">Interactive map available on request</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Sticky enquiry */}

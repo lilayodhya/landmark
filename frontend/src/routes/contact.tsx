@@ -56,14 +56,7 @@ function ContactPage() {
                 </div>
               </div>
             ))}
-
-            <div className="aspect-[5/4] bg-secondary border border-border grid place-items-center text-muted-foreground">
-              <div className="text-center">
-                <MapPin className="h-8 w-8 text-gold mx-auto" />
-                <p className="mt-2 text-sm">Map placeholder — Shop No 7, Sun Swept, Lokhandwala Complex, Four Bugalows, West, Andheri West, Mumbai, Maharashtra 400053</p>
-              </div>
-            </div>
-          </div>
+        </div>
 
           <form
             onSubmit={async (e) => {
@@ -71,7 +64,6 @@ function ContactPage() {
 
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-
     const data = {
         name: formData.get("name"),
         phone: formData.get("phone"),

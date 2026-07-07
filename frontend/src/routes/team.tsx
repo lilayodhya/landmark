@@ -17,23 +17,23 @@ export const Route = createFileRoute("/team")({
 
 const team = [
   {
-    name: "Homesh Patel",
+    name: "Rajesh Makhija",
     role: "Founder & Principal Advisor",
-    email: "homesh@homeshlandmark.com",
+    email: "rajesh@landmark.com",
     phone: "+91 9820357137",
     img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
   },
   {
-    name: "Anaya Krishnan",
+    name: "Ronak Makhija",
     role: "Director, Bengaluru",
-    email: "anaya@homeshlandmark.com",
+    email: "ronak@landmark.com",
     phone: "+91 9820357137",
     img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80",
   },
   {
-    name: "Vikram Rao",
+    name: "Omesh Makhija",
     role: "Head of Investment Advisory",
-    email: "vikram@homeshlandmark.com",
+    email: "omesh@landmark.com",
     phone: "+91 9820357137",
     img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
   },
