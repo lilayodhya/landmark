@@ -155,7 +155,6 @@ export function WelcomeDialog() {
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     maxLength={100}
                     className="mt-2 rounded-none h-11"
-                    placeholder="Jane Doe"
                     required
                   />
                 </div>
@@ -169,7 +168,6 @@ export function WelcomeDialog() {
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       maxLength={20}
                       className="mt-2 rounded-none h-11"
-                      placeholder="+91 9820357137"
                       required
                     />
                   </div>
@@ -182,7 +180,6 @@ export function WelcomeDialog() {
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       maxLength={255}
                       className="mt-2 rounded-none h-11"
-                      placeholder="you@example.com"
                       required
                     />
                   </div>

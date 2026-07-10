@@ -26,7 +26,7 @@ const values = [
 function AboutPage() {
   return (
     <SiteLayout>
-      <PageHeader eyebrow="About us" title="A boutique by design." description="Founded in 2004, Landmark Estate Agents represents a small, considered list of homes for a small, considered list of clients." />
+      <PageHeader eyebrow="About us" title="A boutique by design." description="Founded in 1978, Landmark Estate Agents represents a small, considered list of homes for a small, considered list of clients." />
 
       <section className="py-20">
         <div className="container-x grid lg:grid-cols-2 gap-14 items-center">

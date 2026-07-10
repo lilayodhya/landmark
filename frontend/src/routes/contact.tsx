@@ -65,7 +65,7 @@ function ContactPage() {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const data = {
-        name: formData.get("name"),
+         name: formData.get("name"),
         phone: formData.get("phone"),
         email: formData.get("email"),
         subject: formData.get("subject"),
