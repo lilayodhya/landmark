@@ -47,7 +47,7 @@ function AboutPage() {
         <div className="container-x grid md:grid-cols-2 gap-10">
           {[
             { eyebrow: "Mission", title: "Make the search for a home feel less like a transaction.", body: "We exist to bring craft, calm and clarity to one of life's biggest decisions." },
-            { eyebrow: "Vision", title: "India's most trusted boutique residential advisory.", body: "Known not for volume, but for the quality of every match we make." },
+            { eyebrow: "Vision", title: "Mumbai's most trusted boutique residential advisory.", body: "Known not for volume, but for the quality of every match we make." },
           ].map((c) => (
             <div key={c.eyebrow} className="bg-background border border-border p-10">
               <div className="eyebrow">{c.eyebrow}</div>
