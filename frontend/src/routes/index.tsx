@@ -34,10 +34,10 @@ const reasons = [
 ];
 
 const testimonials = [
-  { quote: "Landmark Estate Agents turned a daunting purchase into a calm, considered process. Their attention to detail is unmatched.", name: "Aarav & Meera Shah", role: "Bought in Worli" },
-  { quote: "They understood the brief in one conversation and shortlisted three homes — we chose the second. Exceptional taste.", name: "Dr. Rhea Kapoor", role: "Bought in Bandra" },
-  { quote: "The team's market read saved us months. Honest, sharp and quietly persistent.", name: "Karthik Iyer", role: "Investor" },
-  { quote: "From staging to marketing to negotiation — a genuinely boutique experience. We've referred them three times.", name: "Sana Mehra", role: "Sold in Juhu" },
+  { quote: "Very professional like the way they help buyer and seller fantastic experience", name: "Dr. Vanrekha Pareek", role: "Investor" },
+  { quote: "I knew Landmark for the last more than 30+ years. I have had very nice business relationship with them. Mr. Rajesh is a highly sophisticated, professional and quite soft spoken person. He is a great deal maker. It is a great pleasure to deal with them and I can vouch for their 100% integrity", name: "Murari Jhunjhunwala", role: "Investor" },
+  { quote: "Extremely happy with the service and guidance provided by the team of Landmark. Always helpful and best at their work. I have been dealing with them for nearly 2 decades.", name: "Ramesh Vohra", role: "Investor" },
+  { quote: " Amazing service and extremely fair team. Very honest, polite and good family run agency, great ethics.Right from advice to registration, they anre with you all the way.", name: "Manish Kukreja", role: "Investor" },
 ];
 
 const faqs = [
@@ -234,7 +234,7 @@ function WhyUs() {
 }
 
 function Testimonials() {
-  const autoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true }));
+  const autoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true }));
   return (
     <section className="py-20 md:py-28 bg-primary text-primary-foreground">
       <div className="container-x">
